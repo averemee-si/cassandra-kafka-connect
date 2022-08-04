@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>solutions.a2.cassandra</groupId>
 	<artifactId>a2-cassandra-kafka-connect</artifactId>
-	<version>0.1.0</version>
+	<version>1.0.0</version>
 	<name>a2-cassandra-kafka-connect</name>
 	<url>https://a2-solutions.eu</url>
 	<description>
