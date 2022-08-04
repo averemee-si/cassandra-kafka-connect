@@ -224,7 +224,17 @@ public class CassandraColumn {
 				case "double":
 					return bs.setDouble(position, (double) valueFromTopic);
 				case "decimal":
-					return bs.setBigDecimal(position, (BigDecimal) valueFromTopic);
+					if (valueFromTopic instanceof BigDecimal) {
+						return bs.setBigDecimal(position, (BigDecimal) valueFromTopic);
+					} else if (valueFromTopic instanceof Double) {
+						return bs.setBigDecimal(position, BigDecimal.valueOf((Double) valueFromTopic));
+					} else {
+						final String  errMsg = String.format(
+								"Unable to cast object of type %s to Cassandra decimal!",
+								valueFromTopic.getClass().getCanonicalName());
+						LOGGER.error(errMsg);
+						throw new ConnectException(errMsg);
+					}
 				case "ascii":
 				case "text":
 					return bs.setString(position, (String) valueFromTopic);
