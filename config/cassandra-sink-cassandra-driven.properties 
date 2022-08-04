@@ -1,0 +1,15 @@
+name=cassandra-sink-cassandra-driven
+connector.class=solutions.a2.kafka.cassandra.CassandraSinkConnector
+tasks.max=1
+topics=EMP
+
+errors.tolerance=none
+errors.log.enable=true
+errors.log.include.messages=true
+
+a2.contact.points=cassandra.eu-north-1.amazonaws.com
+a2.local.datacenter=eu-north-1
+a2.security=AWS_SIGV4
+a2.keyspace=CHEBOTKO
+a2.driving.side=cassandra
+a2.tables=EMP,EMP_BY_DEPT
