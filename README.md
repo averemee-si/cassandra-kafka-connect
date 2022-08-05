@@ -4,6 +4,7 @@ Example configurations cassandra-sink-cassandra-driven.properties & cassandra-si
 
 ## Distribution
 1. [GitHub](https://github.com/averemee-si/cassandra-kafka-connect)
+2. [DockerHub](https://hub.docker.com/r/averemee/a2-cassandra-connect)
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on any platform with JDK8+ support.
