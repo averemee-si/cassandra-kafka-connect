@@ -29,7 +29,7 @@
 	<scm>
 		<url>https://github.com/averemee-si/cassandra-kafka-connect</url>
 		<connection>scm:git:git://github.com/averemee-si/cassandra-kafka-connect.git</connection>
-		<developerConnection>scm:git:git@github.com:averemee-si/cassamdra-kafka-connect.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:averemee-si/cassandra-kafka-connect.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
