@@ -1,0 +1,17 @@
+{
+  "name" : "cassandra-sink-topic-driven",
+  "config" : {
+    "connector.class" : "solutions.a2.kafka.cassandra.CassandraSinkConnector",
+    "tasks.max" : "1",
+    "topics" : "EMP",
+    "errors.tolerance" : "none",
+    "errors.log.enable" : "true",
+    "errors.log.include.messages" : "true",
+    "a2.contact.points" : "cassandra.eu-north-1.amazonaws.com",
+    "a2.local.datacenter" : "eu-north-1",
+    "a2.security" : "AWS_SIGV4",
+    "a2.keyspace" : "AWS_TEST",
+    "a2.keyspace.create.enabled" : "true",
+    "a2.autocreate" : "true"
+  }
+}
