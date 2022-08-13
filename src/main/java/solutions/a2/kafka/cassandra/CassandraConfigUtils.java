@@ -118,7 +118,4 @@ public class CassandraConfigUtils {
 		}
 	}
 
-	public static void main(String[] argv) {
-		configure4Aws(null);
-	}
 }
