@@ -5,6 +5,7 @@ Example configurations cassandra-sink-cassandra-driven.properties & cassandra-si
 ## Distribution
 1. [GitHub](https://github.com/averemee-si/cassandra-kafka-connect)
 2. [DockerHub](https://hub.docker.com/r/averemee/a2-cassandra-connect)
+3. [AWS Marketplace](https://aws.amazon.com/marketplace/seller-profile?id=07173d1d-0e5c-4e97-8db7-5c701176865c) - optimized for [Amazon MSK](https://aws.amazon.com/msk/) and [AWS Glue Schema Registry](https://docs.aws.amazon.com/glue/latest/dg/schema-registry.html) - [amd64 Container](https://aws.amazon.com/marketplace/pp/prodview-gf3fgmzy73qvi)
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on any platform with JDK8+ support.
