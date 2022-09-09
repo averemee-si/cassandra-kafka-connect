@@ -43,7 +43,7 @@
 		<kafka.connect.maven.plugin.version>0.12.0</kafka.connect.maven.plugin.version>
 		<commons.lang3.version>3.12.0</commons.lang3.version>
 		<esri.geometry.version>2.2.4</esri.geometry.version>
-		<slf4j.version>1.7.32</slf4j.version>
+		<slf4j.version>2.0.0</slf4j.version>
 		<junit.version>5.8.2</junit.version>
 		<surefire.plugin.version>3.0.0-M6</surefire.plugin.version>
 		<failsafe.plugin.version>3.0.0-M6</failsafe.plugin.version>
@@ -99,10 +99,10 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12/ -->
-		<dependency>
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-reload4j/ -->
+ 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
+			<artifactId>slf4j-reload4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
 
