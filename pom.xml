@@ -37,7 +37,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<datastax.version>4.14.1</datastax.version>
+		<datastax.version>4.15.0</datastax.version>
 		<aws.sigv4.version>4.0.6</aws.sigv4.version>
 		<kafka.version>3.1.1</kafka.version>
 		<kafka.connect.maven.plugin.version>0.12.0</kafka.connect.maven.plugin.version>
