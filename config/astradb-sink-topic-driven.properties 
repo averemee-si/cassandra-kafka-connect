@@ -1,0 +1,17 @@
+name=cassandra-sink-topic-driven
+connector.class=solutions.a2.kafka.cassandra.CassandraSinkConnector
+tasks.max=1
+topics=EMP
+
+errors.tolerance=none
+errors.log.enable=true
+errors.log.include.messages=true
+
+a2.astradb.connect.bundle=FULL-PATH-TO-secure-connect-astradb.zip
+a2.astradb.client.id=CHANGE-TO-CLIENT-ID
+a2.astradb.client.secret=CHANGE-TO-SECRET-VALUE
+a2.security=ASTRA_DB
+a2.keyspace=astra_test
+a2.keyspace.create.enabled=true
+a2.autocreate=true
+
