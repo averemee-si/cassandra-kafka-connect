@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>solutions.a2.cassandra</groupId>
 	<artifactId>a2-cassandra-kafka-connect</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<name>a2-cassandra-kafka-connect</name>
 	<url>https://a2-solutions.eu</url>
 	<description>
@@ -195,6 +195,7 @@
 								<tag>DSE</tag>
 								<tag>DataStax Enterprise</tag>
 								<tag>Astra DB</tag>
+								<tag>DataStax Astra DB</tag>
 								<tag>Scylla</tag>
 								<tag>ScyllaDB</tag>
 								<tag>Amazon Keyspaces (for Apache Cassandra)</tag>

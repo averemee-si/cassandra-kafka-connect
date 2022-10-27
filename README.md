@@ -1,5 +1,5 @@
 # a2-cassandra-kafka-connect
-The Cassandra Sink Connector allows you to ingest data to [Apache Cassandra](https://cassandra.apache.org/), [ScyllaDB](https://scylladb.com/), and [Amazon Keyspaces](https://aws.amazon.com/keyspaces/) tables from [Apache Kafka](https://kafka.apache.org/) topic. Optimized to work with [Amazon Keyspaces](https://aws.amazon.com/keyspaces/): all required dependencies including [Starfield digital certificate](https://docs.aws.amazon.com/keyspaces/latest/devguide/using_java_driver.html#using_java_driver.BeforeYouBegin) are already included in bundle, AWS SigV4 authentication can be enabled by configuring a connector parameter. Optimized for container environment: instead of creating **application.conf** you can pass DataStax Java Driver configuration using environment variables (detailed in **DataStax Java Driver configuration** section below).
+The Cassandra Sink Connector allows you to ingest data to [Apache Cassandra](https://cassandra.apache.org/), [DataStax Astra DB Cloud](https://www.datastax.com/products/datastax-astra), [DataStax Enterprise](https://www.datastax.com/products/datastax-enterprise), [ScyllaDB](https://scylladb.com/), and [Amazon Keyspaces](https://aws.amazon.com/keyspaces/) tables from [Apache Kafka](https://kafka.apache.org/) topic. Optimized to work with [Amazon Keyspaces](https://aws.amazon.com/keyspaces/): all required dependencies including [Starfield digital certificate](https://docs.aws.amazon.com/keyspaces/latest/devguide/using_java_driver.html#using_java_driver.BeforeYouBegin) are already included in bundle, AWS SigV4 authentication can be enabled by configuring a connector parameter. Optimized for container environment: instead of creating **application.conf** you can pass DataStax Java Driver configuration using environment variables (detailed in **DataStax Java Driver configuration** section below).
 Example configurations cassandra-sink-cassandra-driven.properties & cassandra-sink-topic-driven.properties are included in bundle.
 
 ## Distribution
@@ -8,7 +8,7 @@ Example configurations cassandra-sink-cassandra-driven.properties & cassandra-si
 3. [AWS Marketplace](https://aws.amazon.com/marketplace/seller-profile?id=07173d1d-0e5c-4e97-8db7-5c701176865c) - optimized for [Amazon MSK](https://aws.amazon.com/msk/) and [AWS Glue Schema Registry](https://docs.aws.amazon.com/glue/latest/dg/schema-registry.html) - [amd64 Container](https://aws.amazon.com/marketplace/pp/prodview-gf3fgmzy73qvi)
 
 ## Getting Started
-These instructions will get you a copy of the project up and running on any platform with JDK8+ support.
+These instructions will get you a copy of the project up and running on any platform with JDK11+ support.
 
 ### Prerequisites
 
@@ -100,11 +100,11 @@ and set **a2.tables** to **EMP,EMP_BY_MGR,EMP_BY_DEPT**
 
 ### a2-cassandra-kafka-connect Connector's parameters
 
-`a2.contact.points` - Comma separated list of Cassandra/ScyllaDB hosts or Amazon Keyspaces service endpoint (cassandra.<region-code>.amazonaws.com) to connect to. it is recommended to specify at least two hosts for achieving high availability
+`a2.contact.points` - Comma separated list of Cassandra/ScyllaDB hosts or Amazon Keyspaces service endpoint (cassandra.<region-code>.amazonaws.com) to connect to. it is recommended to specify at least two hosts for achieving high availability. Not required when  `a2.security` is set to **ASTRA_DB**
 
-`a2.contact.points.port` - Specifies the port that the Cassandra/ScyllaDB hosts are listening on. Use **9142** for Amazon Keyspaces. Default - **9042**
+`a2.contact.points.port` - Specifies the port that the Cassandra/ScyllaDB hosts are listening on. Use **9142** for Amazon Keyspaces. Default - **9042**. Not required when  `a2.security` is set to **ASTRA_DB**
 
-`a2.local.datacenter` - Specifies the local Data Center name that is local to the machine on which the connector is running. Use AWS Region code when connecting to Amazon Keyspaces, otherwise run the following CQL against a contact point to find it:
+`a2.local.datacenter` - Specifies the local Data Center name that is local to the machine on which the connector is running. Not required when  `a2.security` is set to **ASTRA_DB**. Use AWS Region code when connecting to Amazon Keyspaces, otherwise run the following CQL against a contact point to find it:
 
 ```
 SELECT data_center FROM system.local;
@@ -112,11 +112,17 @@ SELECT data_center FROM system.local;
 
 `a2.keyspace` - Name of keyspace to use
 
-`a2.security` - The authentication protocol to use against Cassandra/ScyllaDB/Amazon Keyspaces. Supports plain text password authentication, Kerberos, or no authentication for Cassandra and ScyllaDB. Plaintext with service specific credentials and SigV4 are supported for Amazon Keyspaces. Valid values - **NONE**, **PASSWORD**, **KERBEROS**, **AWS_PASSWORD**, **AWS_SIGV4**. Default value - **NONE**
+`a2.security` - The authentication protocol to use against Cassandra/ScyllaDB/Amazon Keyspaces/Astra DB Cloud. Supports plain text password authentication, Kerberos, or no authentication for Cassandra and ScyllaDB. Plaintext with service specific credentials and SigV4 are supported for Amazon Keyspaces. Valid values - **NONE**, **PASSWORD**, **KERBEROS**, **AWS_PASSWORD**, **AWS_SIGV4**, **ASTRA_DB**. Default value - **NONE**
 
 `a2.security.username` - The username to connect to Cassandra/ScyllaDB/Amazon Keyspaces when `a2.security` is set to **PASSWORD** or **AWS_PASSWORD**
 
 `a2.security.password` - The password to connect to Cassandra/ScyllaDB/Amazon Keyspaces when `a2.security` is set to **PASSWORD** or **AWS_PASSWORD**
+
+`a2.astradb.connect.bundle` - Full path to Astra DB secure connect bundle secure-connect-astradb.zip. Required only when `a2.security` is set to **ASTRA_DB**
+
+`a2.astradb.client.id` - Astra DB Client Id. Required only when `a2.security` is set to **ASTRA_DB**
+
+`a2.astradb.client.secret` - Astra DB Client Secret. Required only when `a2.security` is set to **ASTRA_DB**
 
 `a2.consistency` - The requested consistency level to use when writing to Cassandra/ScyllaDB/Amazon Keyspaces. The Consistency Level determines how many replicas in a cluster that must acknowledge read or write operations before it is considered successful. Valid values: **ANY**, **ONE**, **TWO**, **THREE**, **QUORUM**, **ALL**, **LOCAL_QUORUM**, **EACH_QUORUM**, **SERIAL**, **LOCAL_SERIAL**, **LOCAL_ONE**. Default - **LOCAL_QUORUM**
 
@@ -187,7 +193,6 @@ export DATASTAX__JAVA__DRIVER_ADVANCED_PROTOCOL_VERSION="V4"
 
 ## TODO
 
-* Support for [Astra DB](https://www.datastax.com/products/datastax-astra)
 * Timezone shift parameter for date/time datatypes
 * Kerberos auth
 
@@ -196,6 +201,10 @@ export DATASTAX__JAVA__DRIVER_ADVANCED_PROTOCOL_VERSION="V4"
 ####1.0.0 (AUG-2022)
 
 Initial release
+
+####1.1.0 (OCT-2022)
+
+[DataStax Astra DB Cloud](https://www.datastax.com/products/datastax-astra) support
 
 
 ## Authors
