@@ -14,6 +14,7 @@
 package solutions.a2.kafka.cassandra;
 
 import java.net.InetSocketAddress;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,6 +49,7 @@ import com.datastax.oss.driver.api.querybuilder.schema.Drop;
 public class CassandraWrapper {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraWrapper.class);
+	private static final String MANDATORY_PARAM_NOT_SET = "Mandatory parameter '%s' is not set!";
 
 	private CqlSession session;
 	private final Duration execTimeout;
@@ -130,34 +132,69 @@ public class CassandraWrapper {
 		}
 
 		authType = config.getString(ParamConstants.SECURITY_PARAM);
-		final int port;
-		if (StringUtils.equals(authType, ParamConstants.SECURITY_AWS_PASSWORD) ||
-				StringUtils.equals(authType, ParamConstants.SECURITY_AWS_SIGV4)) {
-			port = ParamConstants.PORT_AWS_DEFAULT;
-			CassandraConfigUtils.configure4Aws(config);
-		} else {
-			port = config.getInt(ParamConstants.CONTACT_POINTS_PORT_PARAM);
-		}
-
 		CqlSessionBuilder builder = CqlSession.builder();
-		for (String hostAddress : config.getString(ParamConstants.CONTACT_POINTS_PARAM).split(",")) {
-			LOGGER.debug("Initializing {} using contact points='{}', port='{}'",
-					CassandraWrapper.class.getCanonicalName(), hostAddress, port);
-			builder = builder.addContactPoint(new InetSocketAddress(hostAddress, port));
+		if (StringUtils.equals(authType, ParamConstants.SECURITY_ASTRA_DB)) {
+			// Check Astra DB parameters
+			if (StringUtils.isBlank(config.getString(ParamConstants.ASTRA_DB_CONNECT_BUNDLE_PARAM))) {
+				final String message = String.format(MANDATORY_PARAM_NOT_SET, ParamConstants.ASTRA_DB_CONNECT_BUNDLE_PARAM);
+				LOGGER.error(message);
+				throw new ConnectException(message);
+			}
+			if (StringUtils.isBlank(config.getString(ParamConstants.ASTRA_DB_CLIENT_ID_PARAM))) {
+				final String message = String.format(MANDATORY_PARAM_NOT_SET, ParamConstants.ASTRA_DB_CLIENT_ID_PARAM);
+				LOGGER.error(message);
+				throw new ConnectException(message);
+			}
+			if (StringUtils.isBlank(config.getPassword(ParamConstants.ASTRA_DB_CLIENT_SECRET_PARAM).value())) {
+				final String message = String.format(MANDATORY_PARAM_NOT_SET, ParamConstants.ASTRA_DB_CLIENT_SECRET_PARAM);
+				LOGGER.error(message);
+				throw new ConnectException(message);
+			}
+			builder = builder
+					.withCloudSecureConnectBundle(Paths.get(config.getString(ParamConstants.ASTRA_DB_CONNECT_BUNDLE_PARAM)))
+					.withAuthCredentials(
+							config.getString(ParamConstants.ASTRA_DB_CLIENT_ID_PARAM),
+							config.getPassword(ParamConstants.ASTRA_DB_CLIENT_SECRET_PARAM).value());
+		} else {
+			final int port;
+			if (StringUtils.equals(authType, ParamConstants.SECURITY_AWS_PASSWORD) ||
+					StringUtils.equals(authType, ParamConstants.SECURITY_AWS_SIGV4)) {
+				port = ParamConstants.PORT_AWS_DEFAULT;
+				CassandraConfigUtils.configure4Aws(config);
+			} else {
+				port = config.getInt(ParamConstants.CONTACT_POINTS_PORT_PARAM);
+			}
+
+			if (StringUtils.isBlank(config.getString(ParamConstants.CONTACT_POINTS_PARAM))) {
+				final String message = String.format(MANDATORY_PARAM_NOT_SET, ParamConstants.CONTACT_POINTS_PARAM);
+				LOGGER.error(message);
+				throw new ConnectException(message);
+			}
+			for (String hostAddress : config.getString(ParamConstants.CONTACT_POINTS_PARAM).split(",")) {
+				LOGGER.debug("Initializing {} using contact points='{}', port='{}'",
+						CassandraWrapper.class.getCanonicalName(), hostAddress, port);
+				builder = builder.addContactPoint(new InetSocketAddress(hostAddress, port));
+			}
+
+			if (StringUtils.isBlank(config.getString(ParamConstants.LOCAL_DATACENTER_PARAM))) {
+				final String message = String.format(MANDATORY_PARAM_NOT_SET, ParamConstants.LOCAL_DATACENTER_PARAM);
+				LOGGER.error(message);
+				throw new ConnectException(message);
+			}
+			LOGGER.debug("Adding localDC {}", config.getString(ParamConstants.LOCAL_DATACENTER_PARAM));
+			builder = builder.withLocalDatacenter(config.getString(ParamConstants.LOCAL_DATACENTER_PARAM));
+
+			if (StringUtils.equals(authType, ParamConstants.SECURITY_PASSWORD)) {
+				//Plaintext auth outside AWS
+				builder = builder.withAuthCredentials(
+						config.getString(ParamConstants.USERNAME_PARAM),
+						config.getPassword(ParamConstants.PASSWORD_PARAM).value());
+			}
+			//TODO
+			//TODO - Kerberos
+			//TODO
 		}
 
-		LOGGER.debug("Adding localDC {}", config.getString(ParamConstants.LOCAL_DATACENTER_PARAM));
-		builder = builder.withLocalDatacenter(config.getString(ParamConstants.LOCAL_DATACENTER_PARAM));
-
-		if (StringUtils.equals(authType, ParamConstants.SECURITY_PASSWORD)) {
-			//Plaintext auth outside AWS
-			builder = builder.withAuthCredentials(
-					config.getString(ParamConstants.USERNAME_PARAM),
-					config.getPassword(ParamConstants.PASSWORD_PARAM).value());
-		}
-		//TODO
-		//TODO - Kerberos
-		//TODO
 
 		final CqlSession supportSession = builder.build();
 		final boolean amazonKeyspaces = StringUtils.equals(

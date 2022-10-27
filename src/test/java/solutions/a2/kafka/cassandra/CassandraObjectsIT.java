@@ -82,6 +82,12 @@ public class CassandraObjectsIT {
 //		props.put(ParamConstants.LOCAL_DATACENTER_PARAM, "eu-north-1");
 //		props.put(ParamConstants.SECURITY_PARAM, ParamConstants.SECURITY_AWS_SIGV4);
 
+		// Astra DB
+//		props.put(ParamConstants.ASTRA_DB_CONNECT_BUNDLE_PARAM, "<PATH-TO>/secure-connect-astradb.zip");
+//		props.put(ParamConstants.ASTRA_DB_CLIENT_ID_PARAM, "<CLIENT-ID>");
+//		props.put(ParamConstants.ASTRA_DB_CLIENT_SECRET_PARAM, "<CLIENT-SECRET>");
+//		props.put(ParamConstants.SECURITY_PARAM, ParamConstants.SECURITY_ASTRA_DB);
+
 		props.put(ParamConstants.KEYSPACE_CREATE_ENABLED_PARAM, "true");
 	
 		props.put(ParamConstants.KEYSPACE_PARAM, "test");

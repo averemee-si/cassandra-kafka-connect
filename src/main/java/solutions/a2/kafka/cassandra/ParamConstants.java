@@ -38,19 +38,29 @@ public class ParamConstants {
 
 	public static final String SECURITY_PARAM = "a2.security";
 	public static final String SECURITY_DOC = "The authentication protocol to use against Cassandra/ScyllaDB/Amazon Keyspaces. Supports plain text password authentication, Kerberos, or no authentication for Cassandra and ScyllaDB. Plaintext with service specific credentials and SigV4 are supported for Amazon Keyspaces.\n" +
-													"Valid values - NONE, PASSWORD, KERBEROS, AWS_PASSWORD, AWS_SIGV4.\n" +
+													"Valid values - NONE, PASSWORD, KERBEROS, AWS_PASSWORD, AWS_SIGV4, ASTRADB.\n" +
 													"Default value - NONE.";
 	public static final String SECURITY_NONE = "NONE";
 	public static final String SECURITY_PASSWORD = "PASSWORD";
 	public static final String SECURITY_KERBEROS = "KERBEROS";
 	public static final String SECURITY_AWS_PASSWORD = "AWS_PASSWORD";
 	public static final String SECURITY_AWS_SIGV4 = "AWS_SIGV4";
+	public static final String SECURITY_ASTRA_DB = "ASTRA_DB";
 
 	public static final String USERNAME_PARAM = "a2.security.username";
 	public static final String USERNAME_DOC = "The username to connect to Cassandra/ScyllaDB/Amazon Keyspaces when a2.security is set to PASSWORD or AWS_PASSWORD";
 
 	public static final String PASSWORD_PARAM = "a2.security.password";
 	public static final String PASSWORD_DOC = "The password to connect to Cassandra/ScyllaDB/Amazon Keyspaces when a2.security is set to PASSWORD or AWS_PASSWORD";
+
+	public static final String ASTRA_DB_CONNECT_BUNDLE_PARAM = "a2.astradb.connect.bundle";
+	public static final String ASTRA_DB_CONNECT_BUNDLE_DOC = "Full path to Astra DB secure connect bundle secure-connect-astradb.zip";
+
+	public static final String ASTRA_DB_CLIENT_ID_PARAM = "a2.astradb.client.id";
+	public static final String ASTRA_DB_CLIENT_ID_DOC = "Astra DB Client Id";
+
+	public static final String ASTRA_DB_CLIENT_SECRET_PARAM = "a2.astradb.client.secret";
+	public static final String ASTRA_DB_CLIENT_SECRET_DOC = "Astra DB Client Secret";
 
 	public static final String CONSISTENCY_PARAM = "a2.consistency";
 	public static final String CONSISTENCY_DOC = "The requested consistency level to use when writing to Cassandra/ScyllaDB/Amazon Keyspaces. The Consistency Level determines how many replicas in a cluster that must acknowledge read or write operations before it is considered successful.\n" +

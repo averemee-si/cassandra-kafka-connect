@@ -36,10 +36,12 @@ public class CassandraSinkConnectorConfig extends AbstractConfig {
 	public static ConfigDef config() {
 		return new ConfigDef()
 				.define(ParamConstants.CONTACT_POINTS_PARAM, Type.STRING,
+						"",
 						Importance.HIGH, ParamConstants.CONTACT_POINTS_DOC)
 				.define(ParamConstants.CONTACT_POINTS_PORT_PARAM, Type.INT, ParamConstants.PORT_DEFAULT,
 						Importance.HIGH, ParamConstants.CONTACT_POINTS_PORT_DOC)
 				.define(ParamConstants.LOCAL_DATACENTER_PARAM, Type.STRING,
+						"",
 						Importance.HIGH, ParamConstants.LOCAL_DATACENTER_DOC)
 				.define(ParamConstants.KEYSPACE_PARAM, Type.STRING,
 						Importance.HIGH, ParamConstants.KEYSPACE_DOC)
@@ -50,14 +52,19 @@ public class CassandraSinkConnectorConfig extends AbstractConfig {
 								ParamConstants.SECURITY_PASSWORD,
 								ParamConstants.SECURITY_KERBEROS,
 								ParamConstants.SECURITY_AWS_PASSWORD,
-								ParamConstants.SECURITY_AWS_SIGV4),
+								ParamConstants.SECURITY_AWS_SIGV4,
+								ParamConstants.SECURITY_ASTRA_DB),
 						Importance.HIGH, ParamConstants.SECURITY_DOC)
-				.define(ParamConstants.USERNAME_PARAM, Type.STRING,
-						"",
+				.define(ParamConstants.USERNAME_PARAM, Type.STRING, "",
 						Importance.HIGH, ParamConstants.USERNAME_DOC)
-				.define(ParamConstants.PASSWORD_PARAM, Type.PASSWORD,
-						"",
+				.define(ParamConstants.PASSWORD_PARAM, Type.PASSWORD, "",
 						Importance.HIGH, ParamConstants.PASSWORD_DOC)
+				.define(ParamConstants.ASTRA_DB_CONNECT_BUNDLE_PARAM, Type.STRING, "",
+						Importance.HIGH, ParamConstants.ASTRA_DB_CONNECT_BUNDLE_DOC)
+				.define(ParamConstants.ASTRA_DB_CLIENT_ID_PARAM, Type.STRING, "",
+						Importance.HIGH, ParamConstants.ASTRA_DB_CLIENT_ID_DOC)
+				.define(ParamConstants.ASTRA_DB_CLIENT_SECRET_PARAM, Type.PASSWORD, "",
+						Importance.HIGH, ParamConstants.ASTRA_DB_CLIENT_SECRET_DOC)
 				.define(ParamConstants.CONSISTENCY_PARAM, Type.STRING,
 						ParamConstants.CONSISTENCY_LOCAL_QUORUM,
 						ConfigDef.ValidString.in(
