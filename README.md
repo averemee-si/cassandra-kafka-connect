@@ -118,7 +118,7 @@ SELECT data_center FROM system.local;
 
 `a2.security.password` - The password to connect to Cassandra/ScyllaDB/Amazon Keyspaces when `a2.security` is set to **PASSWORD** or **AWS_PASSWORD**
 
-`a2.astradb.connect.bundle` - Full path to Astra DB secure connect bundle secure-connect-astradb.zip. Required only when `a2.security` is set to **ASTRA_DB**
+`a2.astradb.connect.bundle` - Full path to Astra DB secure connect bundle secure-connect-astradb.zip. Required only when `a2.security` is set to **ASTRA_DB**. Please refer to [Working with secure connect bundle](https://docs.datastax.com/en/astra-classic/docs/connect/secure-connect-bundle.html) or to [Working with secure connect bundle - serverless](https://docs.datastax.com/en/astra-serverless/docs/connect/secure-connect-bundle.html) for more information about connect bundle.
 
 `a2.astradb.client.id` - Astra DB Client Id. Required only when `a2.security` is set to **ASTRA_DB**
 
